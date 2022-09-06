@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "analyze sensor data",
+    "ActionOnFailure": "CONTINUE",
+    "HadoopJarStep": {
+      "Jar": "command-runner.jar",
+      "Args": [
+        "spark-submit",
+        "--deploy-mode",
+        "cluster",
+        "--master",
+        "yarn",
+        "--conf",
+        "spark.yarn.submit.waitAppCompletion=true",
+        "s3a://{{ work_bucket }}/sensor_data_analyze.py"
+      ]
+    }
+  }
+]

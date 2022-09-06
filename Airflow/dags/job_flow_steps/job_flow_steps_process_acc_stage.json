@@ -1,0 +1,20 @@
+[
+  {
+    "Name": "process batch data acceleration sensors",
+    "ActionOnFailure": "CONTINUE",
+    "HadoopJarStep": {
+      "Jar": "command-runner.jar",
+      "Args": [
+        "spark-submit",
+        "--deploy-mode",
+        "cluster",
+        "--master",
+        "yarn",
+        "--conf",
+        "spark.yarn.submit.waitAppCompletion=true",
+        "s3a://{{ work_bucket }}/acc_sensor_data_partition_stage.py"
+      ]
+    }
+  }  
+ 
+]
