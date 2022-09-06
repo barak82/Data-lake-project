@@ -2,7 +2,7 @@
 
 ## Overview
 As stated in AWS, one of most used Cloud-based big data platform to process and analyze a big data is using Amazon Elastic MapReduce (Amazon EMR) and an open source tools such as Apache Spark, Hive, Hadoop and others.
-There are two dataset sources vehicle data (*data-lake-pro-bvr-data*) and sensor data (*data-lake-pro-acc-data*). These raw data contains a nested json files in string format. the goal of this project part is two run ETL process, check the data quality (validate the data if it contains the required information) and finally merge and prepare the two datasets for further analysis.  
+In this project there are two dataset sources vehicle data (*data-lake-pro-bvr-data*) and sensor data (*data-lake-pro-acc-data*). These raw data contains a nested json files in string format. The goal of this project part is to run ETL process, check the data quality (validate the data if it contains the required information) and finally merge and prepare the two datasets for further analysis.  
 
 The project consists of two parts
 - AWS EMR stack cloudformation
