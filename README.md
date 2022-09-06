@@ -20,7 +20,6 @@ The cloud formation parts includes creating all the resources that are needed to
 - __data-lake-pro-analyzed-data__: storage of the final analyzed data
 moreover the VPC and Internet gateway to AWS EMR cluster is created using the the first step. The diagram below shows the cloud formation on AWS to create resources for EMR cluster and pySpark application
 
-
 ## work-flow Architecture
 
 ## - CloudFormation to create EMR cluster and resources
@@ -52,7 +51,11 @@ The following tasks are included in the DAG
 The Airflow DAGs output the following data structure. The tables are stored in AWS s3 bucket, at each step. The dataset is read using Spark application (python scripts) running on EMR AWS cluster. 
 ![Datapschema](images/dbschema.png)
 ## Processed data output size 
+If the dataset size is increased by 100X
+- It is possible to configure the *"job flow steps"* with high capacity of *InstanceType*. This is defined in a function "*__run_job_flow__*" . There are a list of instance types in [please see the AWS instance capacity list.](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/compute-optimized-instances.html)
+
 The following data sizes are extracted from log files  
+
 - [2022-09-02 10:33:42,443] INFO - DAY 2022-08-03 analyze_data rows= 1977336 and columns=30
 - [2022-09-01 10:33:04,626] INFO - DAY 2022-08-03 process_data rows= 1002312 and columns=30
 

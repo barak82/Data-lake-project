@@ -21,7 +21,7 @@ aws_config_path=Variable.get('aws_config_path')
 
 with DAG(
     dag_id="data_lake_project_EMR_plugin",
-    schedule_interval="@daily",
+    schedule_interval="0 7 * * *",
     start_date=datetime(2022, 7, 21),
     catchup=False,
     tags=["Final_project"]
