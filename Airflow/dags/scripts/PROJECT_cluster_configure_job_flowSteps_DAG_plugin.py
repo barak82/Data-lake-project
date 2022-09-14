@@ -19,12 +19,19 @@ sys.path.append(f'{dir_path}/plugins/')
 
 aws_config_path=Variable.get('aws_config_path')
 
+default_args = {
+    'owner': 'innovation_lab',
+    'start_date': datetime(2022, 8, 4),
+    'end_date': datetime(2022, 8, 6),
+}
+
 with DAG(
-    dag_id="data_lake_project_EMR_plugin",
-    schedule_interval="0 7 * * *",
-    start_date=datetime(2022, 7, 21),
-    catchup=False,
-    tags=["Final_project"]
+    dag_id='data_lake_project_EMR_plugin',
+    default_args=default_args,
+    schedule_interval='0 7 * * *',
+    tags=['Final_project'],
+    description='Extract, Load and transform data EMR cluster with Airflow',
+    template_searchpath=aws_config_path
     ) as dag:
 
     start_operator = DummyOperator(task_id='Begin_execution',  dag=dag)
