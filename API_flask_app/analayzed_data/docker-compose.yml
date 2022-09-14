@@ -9,3 +9,4 @@ services:
     FLASK_ENV: development
   volumes:
   - ./:/app
+  - /home/hbi/project_api/python_flask/data_AWS:/data_AWS
