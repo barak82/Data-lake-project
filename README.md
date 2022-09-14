@@ -52,8 +52,11 @@ The following tasks are included in the DAG
 
 ![Datapipeline](images/Airflow_dags.PNG)
 
+## Backfill Airflow DAGs test
+For testing purpose the buckfill operation is execured for few days, the sucess DAG runs results are shown below
+![Datapschema](images/test_project_dag.png)
 
-## Entity Relationship Diagram (Data Schema)
+## Data Warehouse Entity Relationship Diagram (Data Schema)
 The Airflow DAGs output the following data structure. The tables are stored in AWS s3 bucket, at each step. The dataset is read using Spark application (python scripts) running on EMR AWS cluster. 
 ![Datapschema](images/dbschema.png)
 ## Processed data output size 
@@ -65,13 +68,15 @@ The following data sizes are extracted from log files
 - [2022-09-02 10:33:42,443] INFO - DAY 2022-08-03 analyze_data rows= 1977336 and columns=30
 - [2022-09-01 10:33:04,626] INFO - DAY 2022-08-03 process_data rows= 1002312 and columns=30
 
-
-## How to kill the scheduler and webserver
-
+## How to start, kill the scheduler and webserver using CLI
+To start the Airflow backfill operation 
+```
+airflow dags backfill -s <start-date> -e <end-date> data_lake_test_prod
+```
 To kill Airflow scheduler:
 
 ```
-$ sudo kill $(ps -ef | grep "airflow scheduler" | awk '{print $2}')
+$ kill $(ps -ef | grep "airflow scheduler" | awk '{print $2}')
 ```
 
 To kill Airflow webserver:
