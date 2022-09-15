@@ -56,10 +56,92 @@ The following tasks are included in the DAG
 For testing purpose the buckfill operation is execured for few days, the sucess DAG runs results are shown below
 ![Datapschema](images/test_project_dag.png)
 
+
 ## Data Warehouse Entity Relationship Diagram (Data Schema)
 The Airflow DAGs output the following data structure. The tables are stored in AWS s3 bucket, at each step. The dataset is read using Spark application (python scripts) running on EMR AWS cluster. 
-![Datapschema](images/dbschema.png)
-## Processed data output size 
+
+![DataSchema](images/dbschema.png)
+##### - AnalyzeVehicleSensorData
+| Term                        | Definition                                 |
+|:----------------------------|:-------------------------------------------|
+| bvrId                       | unique id of vehicle record                |
+| record_time                 | the time the vehicle pass a location       |
+| axleCount                   | the number of axle axle count of a vehicle |
+| average_speed               | vehicle average speed                      |
+| average_wheel_weight        | average wheel weight of a vehicle          |
+| deflection                  | deflection measured from a vehicle         |
+| average_stripes_temperature | temperature measured from sensor stripes   |
+##### - ValidateAccSensorData
+| Term               | Definition                         |
+|:-------------------|:-----------------------------------|
+| bvrId              | unique id of vehicle record        |
+| num_patch_clusters | the number of vehicle wheels       |
+| channelNumber      | sensor channel number              |
+| def_pos            | positive deflection values         |
+| def_neg            | negative deflection values         |
+| defData            | deflection measured arrays         |
+| notificationType   | the notification when error occurs |
+| title              | title of error message             |
+| message            | message details                    |
+| num_axles          | the number of vehicle axles        |
+| serialNumber       | the serialNumber of a sensor       |
+##### - ValidateVehicleGroup
+| Term                    | Definition                       |
+|:------------------------|:---------------------------------|
+| bvrId                   | unique id of vehicle record      |
+| laneId                  | lane of a road vehicle passing   |
+| speed                   | the speed of a vehicle           |
+| startTime               | the record time                  |
+| vdrId                   | the vehicle record id            |
+| weight                  | the weight of a vehicle          |
+| temperatureRecordIds_sn | the temperature of the lane      |
+| stripesTemperature      | temperature measured as a arrays |
+| wheelPosition           | the position of vehicle          |
+| patch_weight            | the wheel weight                 |
+| patch_length            | the wheel patch length           |
+| patch_width             | the patch width                  |
+| axleCount               | axle count of a vehicle          |
+| axle_index              | the vehicle axle index           |
+##### - StageAccSensorData
+| Term               | Definition                              |
+|:-------------------|:----------------------------------------|
+| bvrId              | unique id of vehicle record             |
+| num_patch_clusters | the number of vehicle wheel on the lane |
+| channelNumber      | the sensor channel number               |
+| def_pos            | positive deflection values              |
+| def_neg            | negative deflection values              |
+| defData            | deflection measured arrays              |
+| notificationType   | the notification when error occurs      |
+| title              | title of error message                  |
+| message            | message details                         |
+| num_axles          | the number of vehicle axles             |
+| serialNumber       | the number of axles                     |
+##### - StageVehicleData
+| Term                    | Definition                       |
+|:------------------------|:---------------------------------|
+| bvrId                   | unique id of vehicle record      |
+| laneId                  | lane of a road vehicle passing   |
+| speed                   | the speed of a vehicle           |
+| startTime               | the record time                  |
+| vdrId                   | the vehicle record id            |
+| weight                  | the weight of a vehicle          |
+| temperatureRecordIds_sn | the temperature of the lane      |
+| stripesTemperature      | temperature measured as a arrays |
+| wheelPosition           | the position of vehicle          |
+| patch_weight            | the wheel weight                 |
+| patch_length            | the wheel patch length           |
+| patch_width             | the patch width                  |
+| axleCount               | axle count of a vehicle          |
+| axle_index              | the vehicle axle index           |
+## Scalability 
+- AWS platform has different options for scalability of the AWS services. In this prarticular case of the project the consumable data  is stored in s3. Therefore, the scalability and fast delivery of consumable data to users >10k can be achieved using CloudFront that works with s3 bucket. As CloudFront is delivers access to many user around the glob, static and dynamic content from AWS s3. It is by design more effective in response time as well as cost wise, than accessing directly from s3 when thinking of scalability. it works in a way that data can be delivered with low latency to the user from the nearest Edge location. 
+![AWS cloud front](images/aws_cloudFront_2.png)   
+![AWS cloud front use to many users](images/aws_cloudFront_1.png)  
+As for EC2 instance scalbility, Auto scaling feature can be used by configuring/defining the baseline performance . The minumum and maximum number of EC2 instance requried, the time of peak resource need and CPU usage limits, type of instances On-Demand (for baseline performance) and add spot instance with bid ( for Auto scaling), etc. can be parameters to cost optimize and keep the high performant scalable process.  
+## Processed data 
+The processed data output can be used using the plotting tool web application. a sample data from the output is shown below 
+ ![AWS cloud front use to many users](images/sample_data_output.png)  
+ ![AWS cloud front use to many users](images/sample_data_output2.png)  
 If the dataset size is increased by 100X
 - It is possible to configure the *"job flow steps"* with high capacity of *InstanceType*. This is defined in a function "*__run_job_flow__*" . There are a list of instance types in [please see the AWS instance capacity list.](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/compute-optimized-instances.html)
 
