@@ -14,7 +14,7 @@ The project consists of two parts
 - AWS EMR stack cloudformation
 - Airflow managed ETL data pipe line and data analysis using spark Auto-terminating jobs
 
-The cloud formation parts includes creating all the resources that are needed to run the second step. The following resources are created in AWS using the *jaml* and python script.
+The cloud formation parts includes creating all the resources that are needed to run the second step. The following resources are created in AWS using  *JAML* configuration files and python scripts.
 
 - __data-lake-pro-logs__ : logging the EMR cluster output and PySpark application (python scripts) hadoop
 - __data-lake-pro-work-bucket__: storing pyspark application scripts
@@ -134,7 +134,7 @@ The Airflow DAGs output the following data structure. The tables are stored in A
 | axleCount               | axle count of a vehicle          |
 | axle_index              | the vehicle axle index           |
 ## Scalability 
-- AWS platform has different options for scalability of the AWS services. In this prarticular case of the project the consumable data  is stored in s3. Therefore, the scalability and fast delivery of consumable data to users >10k can be achieved using CloudFront that works with s3 bucket. As CloudFront is delivers access to many user around the glob, static and dynamic content from AWS s3. It is by design more effective in response time as well as cost wise, than accessing directly from s3 when thinking of scalability. it works in a way that data can be delivered with low latency to the user from the nearest Edge location. 
+- AWS platform has different options for scalability of the AWS services. In this prarticular case of the project the consumable data  is stored in s3. Therefore, the scalability and fast delivery of consumable data to users >10k can be achieved using CloudFront that works with s3 bucket. As CloudFront is delivers access to many user around the glob, static and dynamic content from AWS s3. It is by design more effective in response time as well as cost wise, than accessing directly from s3 when thinking of scalability. it works in a way that data can be delivered with low latency to the user from the nearest Edge location. [For more information see Amazon S3 + Amazon CloudFront](https://aws.amazon.com/blogs/networking-and-content-delivery/amazon-s3-amazon-cloudfront-a-match-made-in-the-cloud/)
 ![AWS cloud front](images/aws_cloudFront_2.png)   
 ![AWS cloud front use to many users](images/aws_cloudFront_1.png)  
 As for EC2 instance scalbility, Auto scaling feature can be used by configuring/defining the baseline performance . The minumum and maximum number of EC2 instance requried, the time of peak resource need and CPU usage limits, type of instances On-Demand (for baseline performance) and add spot instance with bid ( for Auto scaling), etc. can be parameters to cost optimize and keep the high performant scalable process.  
